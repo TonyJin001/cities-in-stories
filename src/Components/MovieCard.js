@@ -6,18 +6,31 @@ class MovieCard extends Component {
   render() {
     return (
       <div className="movie-card">
-        <Grid>
-          <Row className="show-grid">
-            <Col xs={12} md={8}>
-              <img src={this.props.imgSrc}/>
-            </Col>
-            <Col xs={6} md={4}>
-              <h1>{this.props.title}</h1>
-              <h2>({this.props.year})</h2>
-              <h3>{this.props.director}</h3>
-            </Col>
-          </Row>
-        </Grid>
+        <div className="row">
+          <div className="col-xs-4 col-md-4 col-lg-4">
+            <img className="movie-poster img-responsive" src={this.props.imgSrc}/>
+          </div>
+          <div className="film-information col-xs-8 col-md-8 col-lg-8">
+              <p className="film-heading">
+                <span className="film-title">{this.props.title}  </span>
+                <span className="film-year">({this.props.year})</span>
+              </p>
+              <p className="film-sub-heading">
+                <span className="film-director">by {this.props.director}</span>
+              </p>
+              <div>
+                {this.props.genres.map((genre,i)=>{
+                  return (
+                    <div className="tags-container">
+                      <p className="tag">{genre}</p>
+                    </div>
+                  )
+                })}
+              </div>
+              <p className="film-description">{this.props.description}</p>
+              <p className="film-num-locations"><i class="fas fa-map-marker"></i>        {this.props.numLocations} locations in Paris</p>
+          </div>
+        </div>
 
       </div>
     );
