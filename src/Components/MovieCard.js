@@ -3,6 +3,8 @@ import './MovieCard.css';
 import {Bootstrap, Grid, Row, Col} from 'react-bootstrap';
 
 class MovieCard extends Component {
+
+
   render() {
     return (
       <div className="movie-card">
