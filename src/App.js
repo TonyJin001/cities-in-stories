@@ -10,7 +10,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar pageTitle="Paris in Films"/>
+        <NavBar pageTitle="Cities in Stories"/>
         <BrowserRouter>
           <Switch>
             <Route path="/" exact component={MovieCardList}/>

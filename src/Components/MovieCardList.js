@@ -25,7 +25,9 @@ class MovieCardList extends Component {
     return (
       <div className="movie-card-list">
             {this.state.movieCards.map((card,i)=>{
-              return <Link to="BeforeSunsetApp"><MovieCard title={card.title}
+              let tempRoute=card.title.split(" ").join("")+"App";
+              console.log(tempRoute);
+              return <Link to={tempRoute}><MovieCard title={card.title}
               year={card.year}
               imgSrc={card.imgSrc}
               director={card.director}
