@@ -3,6 +3,7 @@ import MovieCard from './MovieCard';
 import './MovieCardList.css'
 import {Bootstrap, Grid, Row, Col} from 'react-bootstrap';
 import {db} from "../firebase"
+import {BrowserRouter, Route, Link} from "react-router-dom";
 
 class MovieCardList extends Component {
 
@@ -24,13 +25,13 @@ class MovieCardList extends Component {
     return (
       <div className="movie-card-list">
             {this.state.movieCards.map((card,i)=>{
-              return <MovieCard title={card.title}
+              return <Link to="BeforeSunsetApp"><MovieCard title={card.title}
               year={card.year}
               imgSrc={card.imgSrc}
               director={card.director}
               genres={card.genres}
               description={card.description}
-              numLocations={card.numLocations}/>
+              numLocations={card.numLocations}/></Link>
             })}
       </div>
 
