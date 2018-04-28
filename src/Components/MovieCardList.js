@@ -25,7 +25,7 @@ class MovieCardList extends Component {
     return (
       <div className="movie-card-list">
             {this.state.movieCards.map((card,i)=>{
-              let tempRoute=card.title.split(" ").join("")+"App";
+              let tempRoute=card.title.split(" ").join("");
               console.log(tempRoute);
               return <Link to={tempRoute}><MovieCard title={card.title}
               year={card.year}

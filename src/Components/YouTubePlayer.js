@@ -1,7 +1,22 @@
 import React from 'react';
 import YouTube from 'react-youtube';
+import {db} from "../firebase";
 
 class YouTubePlayer extends React.Component {
+
+  // constructor (props) {
+  //   super(props);
+  //   this.state = {
+  //     filmData:[]
+  //   }
+  // }
+  //
+  // componentWillMount() {
+  //   const filmData = db.collection('Films').doc(this.props.dbIndex).get().then(doc => doc.data());
+  //   this.setState({filmData});
+  // }
+
+
   render() {
     const opts = {
       height: '390',
@@ -13,7 +28,7 @@ class YouTubePlayer extends React.Component {
 
     return (
       <YouTube
-        videoId="3WscLkiiCts"
+        videoId={this.props.videoId}
         opts={opts}
         onReady={this._onReady}
       />
