@@ -16,10 +16,18 @@ class YouTubePlayer extends React.Component {
   //   const filmData = db.collection('Films').doc(this.props.dbIndex).get().then(doc => doc.data());
   //   this.setState({filmData});
   // }
+
+
+
   constructor (props, context) {
     super(props, context);
-    this._onReady = this._onReady.bind(this);
+    this._onPlay = this._onPlay.bind(this);
+    this._onPause = this._onPause.bind(this);
     this.intervalFunction = this.intervalFunction.bind(this);
+
+    this.state = {
+      time_update_interval : null
+    }
   }
 
 
@@ -36,15 +44,21 @@ class YouTubePlayer extends React.Component {
       <YouTube
         videoId={this.props.videoId}
         opts={opts}
-        onReady={this._onReady}
+        onPlay={this._onPlay}
+        onPause={this._onPause}
       />
     );
   }
 
-  _onReady(event) {
+  _onPlay(event) {
     // access to player in all event handlers via event.target
     // event.target.pauseVideo();
-    let time_update_interval = setInterval(this.intervalFunction,1000,event.target);
+    this.state.time_update_interval = setInterval(this.intervalFunction,1000,event.target);
+  }
+
+  _onPause(event) {
+    clearInterval(this.state.time_update_interval);
+    this.state.time_update_interval = null;
   }
 
   intervalFunction (target) {

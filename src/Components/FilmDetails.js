@@ -18,6 +18,7 @@ export class FilmDetails extends Component {
     this.setState({
       clipData:params
     })
+    console.log(params);
   }
 
   componentWillMount() {
