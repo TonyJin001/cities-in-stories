@@ -6,7 +6,7 @@ class NavBar extends Component {
   render() {
     return (
       <div>
-        <Navbar className="navigation">
+        <Navbar className="navigation navbar-fixed-top">
           <Navbar.Header>
             <Navbar.Brand>
               <p className ="navigation-brand">{this.props.pageTitle}</p>
