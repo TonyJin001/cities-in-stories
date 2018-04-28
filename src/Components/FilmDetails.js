@@ -9,8 +9,15 @@ export class FilmDetails extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      filmData:null
+      filmData:null,
+      clipData:null
     }
+  }
+
+  fromYouTube(params) {
+    this.setState({
+      clipData:params
+    })
   }
 
   componentWillMount() {
@@ -37,7 +44,7 @@ export class FilmDetails extends Component {
           <div className="left-col col-sm-6 col-md-6 col-lg-6">
             {
               this.state.filmData.clips.map((clip,i) => {
-                return <YouTubePlayer videoId={clip} />
+                return <YouTubePlayer videoId={clip} callback={this.fromYouTube.bind(this)}/>
               })
             }
           </div>

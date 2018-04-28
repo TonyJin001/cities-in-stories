@@ -1,6 +1,7 @@
 import React from 'react';
 import YouTube from 'react-youtube';
 import {db} from "../firebase";
+import PropTypes from 'prop-types';
 
 class YouTubePlayer extends React.Component {
 
@@ -15,6 +16,11 @@ class YouTubePlayer extends React.Component {
   //   const filmData = db.collection('Films').doc(this.props.dbIndex).get().then(doc => doc.data());
   //   this.setState({filmData});
   // }
+  constructor (props, context) {
+    super(props, context);
+    this._onReady = this._onReady.bind(this);
+    this.intervalFunction = this.intervalFunction.bind(this);
+  }
 
 
   render() {
@@ -38,10 +44,18 @@ class YouTubePlayer extends React.Component {
   _onReady(event) {
     // access to player in all event handlers via event.target
     // event.target.pauseVideo();
-    let time_update_interval = setInterval(function() {
-      console.log(event.target.getCurrentTime());
-    },1000)
+    let time_update_interval = setInterval(this.intervalFunction,1000,event.target);
   }
+
+  intervalFunction (target) {
+    let time = target.getCurrentTime();
+    this.props.callback(time);
+  }
+
+}
+
+YouTubePlayer.protoTypes = {
+  callback: PropTypes.func,
 }
 
 export default YouTubePlayer;
