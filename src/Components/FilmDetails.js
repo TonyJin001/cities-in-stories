@@ -74,48 +74,81 @@ export class FilmDetails extends Component {
   //
   // }
 
-sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
+// sleep(milliseconds) {
+//   var start = new Date().getTime();
+//   for (var i = 0; i < 1e7; i++) {
+//     if ((new Date().getTime() - start) > milliseconds){
+//       break;
+//     }
+//   }
+// }
 
-  getLatLng() {
-    if (this.state.clipData) {
-      let thisLat = -1;
-      let thisLng = -1;
-      db.collection('Films-to-Places').doc('3WscLkiiCts').get().then(function(doc) {
-        if (doc.exists) {
-          let data = doc.data();
-          let userRef = data['0-161'];
-          userRef.get().then(function(place) {
-            let placeData = place.data();
-            thisLat = placeData.Coor[0];
-            thisLng = placeData.Coor[1];
-            console.log("promise resolved");
-          });
-
-        } else {
-          console.log("No Document in calculateLocation");
-        }
-      });
+  // getLatLng() {
+  //   if (this.state.clipData) {
+  //     let thisLat = -1;
+  //     let thisLng = -1;
+  //     db.collection('Films-to-Places').doc('3WscLkiiCts').get().then(function(doc) {
+  //       if (doc.exists) {
+  //         let data = doc.data();
+  //         let userRef = data['0-161'];
+  //         userRef.get().then(function(place) {
+  //           let placeData = place.data();
+  //           thisLat = placeData.Coor[0];
+  //           thisLng = placeData.Coor[1];
+  //           console.log("promise resolved");
+  //         });
+  //
+  //       } else {
+  //         console.log("No Document in calculateLocation");
+  //       }
+  //     });
       // while (thisLat==-1 || thisLng == -1) {
       //   this.sleep(1000);
       //   console.log("sleeping 100 ms");
       // }
-      return [thisLat,thisLng];
+  //     return [thisLat,thisLng];
+  //   } else {
+  //     return [49.852547,2.3471197000000075];
+  //   }
+  // }
+  //
+  // getLng() {
+  //   return 2.3471197000000075;
+  // }
+
+  getLatLng() {
+    if (this.state.clipData) {
+      let currentTime = this.state.clipData.time;
+      let allTimeToClips = this.state.allClips[this.state.clipData.ID];
+      for (var key in allTimeToClips) {
+        let startTime = key.split("-")[0];
+        let endTime = key.split("-")[1];
+        if (currentTime<=endTime && currentTime>= startTime) {
+          return [allTimeToClips[key]['Location']['_lat'],allTimeToClips[key]['Location']['_long']];
+        }
+      }
+      return [48.85661400000001,2.3522219000000177];
     } else {
-      return [49.852547,2.3471197000000075];
+      return [48.85661400000001,2.3522219000000177];
     }
   }
 
   getLng() {
-    return 2.3471197000000075;
+    if (this.state.clipData) {
+      let currentTime = this.state.clipData.time;
+      let allTimeToClips = this.state.allClips[this.state.clipData.ID];
+      for (var key in allTimeToClips) {
+        let startTime = key.split("-")[0];
+        let endTime = key.split("-")[1];
+        if (currentTime<=endTime && currentTime>= startTime) {
+          return allTimeToClips[key]['_long'];
+        }
+      }
+      return 49.852547;
+    } else {
+      return 49.852547;
+    }
   }
-
 
   render() {
     if (this.state && this.state.filmData && this.state.allClips) {
@@ -146,7 +179,7 @@ sleep(milliseconds) {
                 <Marker
                 title={'The marker`s title will appear as a tooltip.'}
                 name={'SOMA'}
-                position={{lat: this.state.allClips["3WscLkiiCts"]["1-161"]["_lat"], lng: this.state.allClips["3WscLkiiCts"]["1-161"]["_long"]}} />
+                position={{lat: this.getLatLng()[0], lng: this.getLatLng()[1]}} />
 
                 <InfoWindow onClose={this.onInfoWindowClose}>
                         <div>
