@@ -31,6 +31,7 @@ class YouTubePlayer extends React.Component {
   }
 
 
+
   render() {
     const opts = {
       height: '390',
@@ -62,8 +63,13 @@ class YouTubePlayer extends React.Component {
   }
 
   intervalFunction (target) {
-    let time = target.getCurrentTime();
-    this.props.callback(time);
+    let thisId = this.props.videoId;
+    let videoToTime = {
+      ID: thisId,
+      time: target.getCurrentTime()
+    }
+
+    this.props.callback(videoToTime);
   }
 
 }

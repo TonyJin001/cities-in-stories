@@ -7,3 +7,9 @@
 .left-col {
   overflow: scroll;
 }
+
+.google-map-container {
+  height: 580px;
+  margin-right: 100px;
+
+}
