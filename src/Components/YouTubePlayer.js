@@ -2,6 +2,7 @@ import React from 'react';
 import YouTube from 'react-youtube';
 import {db} from "../firebase";
 import PropTypes from 'prop-types';
+import './YouTubePlayer.css';
 
 class YouTubePlayer extends React.Component {
 
@@ -23,6 +24,7 @@ class YouTubePlayer extends React.Component {
     super(props, context);
     this._onPlay = this._onPlay.bind(this);
     this._onPause = this._onPause.bind(this);
+    this.displayLocations = this.displayLocations.bind(this);
     this.intervalFunction = this.intervalFunction.bind(this);
 
     this.state = {
@@ -30,7 +32,17 @@ class YouTubePlayer extends React.Component {
     }
   }
 
-
+  displayLocations() {
+    for (var key in this.props.locationInfo) {
+      let item = this.props.locationInfo[key];
+      console.log(item);
+      return (
+        <div>
+          <p className="location-name"><i class="fas fa-map-marker"></i>        {item.name}</p>
+          <p className="location-address">{item.address}</p>
+        </div>)
+    }
+  }
 
   render() {
     const opts = {
@@ -41,13 +53,22 @@ class YouTubePlayer extends React.Component {
       }
     };
 
+    console.log(this.props.locationInfo);
+
     return (
-      <YouTube
-        videoId={this.props.videoId}
-        opts={opts}
-        onPlay={this._onPlay}
-        onPause={this._onPause}
-      />
+      <div className="video-container">
+        <h1 className="video-title">{this.props.videoTitle}</h1>
+        <YouTube
+          videoId={this.props.videoId}
+          opts={opts}
+          onPlay={this._onPlay}
+          onPause={this._onPause}
+        />
+        {this.displayLocations()}
+        <br />
+        <br />
+        <hr />
+      </div>
     );
   }
 

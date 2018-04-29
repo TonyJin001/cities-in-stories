@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import YouTubePlayer from './YouTubePlayer';
 import './FilmDetails.css';
 import {db} from "../firebase";
+import NavBar from './NavBar';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 export class FilmDetails extends Component {
@@ -152,18 +153,32 @@ export class FilmDetails extends Component {
 
   render() {
     if (this.state && this.state.filmData && this.state.allClips) {
-      console.log("!!!!");
-      console.log(this.state);
-      console.log(this.state.allClips);
-      console.log(this.state.allClips["3WscLkiiCts"]["1-161"]["_lat"]);
-      console.log("!!!!");
 
       return (
         <div>
+          <NavBar pageTitle={this.props.title}/>
           <div className="left-col col-sm-6 col-md-6 col-lg-6">
+            <p className="film-heading">
+              <span className="film-title">{this.state.filmData.title}  </span>
+              <span className="film-year">({this.state.filmData.year})</span>
+            </p>
+            <p className="film-sub-heading">
+              <span className="film-director">by {this.state.filmData.director}</span>
+            </p>
+            <div>
+              {this.state.filmData.genres.map((genre,i)=>{
+                return (
+                  <div className="tags-container">
+                    <p className="tag">{genre}</p>
+                  </div>
+                )
+              })}
+            </div>
+            <p className="film-description">{this.state.filmData.description}</p>
+            <hr />
             {
               this.state.filmData.clips.map((clip,i) => {
-                return <YouTubePlayer videoId={clip} callback={this.fromYouTube.bind(this)}/>
+                return <YouTubePlayer videoId={clip.ID} videoTitle={clip.Title} callback={this.fromYouTube.bind(this)} locationInfo={this.state.allClips[clip.ID]}/>
               })
             }
           </div>

@@ -19,7 +19,7 @@ class App extends Component {
 
     return (
       <div>
-        <NavBar pageTitle="Cities in Stories"/>
+        
         <BrowserRouter>
           <Switch>
             <Route path="/" exact component={MovieCardList}/>
