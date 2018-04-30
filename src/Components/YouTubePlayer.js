@@ -3,6 +3,7 @@ import YouTube from 'react-youtube';
 import {db} from "../firebase";
 import PropTypes from 'prop-types';
 import './YouTubePlayer.css';
+import {Link} from "react-router-dom";
 
 class YouTubePlayer extends React.Component {
 
@@ -33,15 +34,21 @@ class YouTubePlayer extends React.Component {
   }
 
   displayLocations() {
+    console.log("@@@@@@@");
+    console.log(this.props.locationInfo);
+    console.log("@@@@@@@");
+    let locationInfoArr = [];
     for (var key in this.props.locationInfo) {
       let item = this.props.locationInfo[key];
+      locationInfoArr.push([item.name,item.address]);
       console.log(item);
-      return (
-        <div>
-          <p className="location-name"><i class="fas fa-map-marker"></i>        {item.name}</p>
-          <p className="location-address">{item.address}</p>
-        </div>)
+      // return (
+      //   <div>
+      //     <p className="location-name"><i class="fas fa-map-marker"></i>        {item.name}</p>
+      //     <p className="location-address">{item.address}</p>
+      //   </div>)
     }
+    return locationInfoArr;
   }
 
   render() {
@@ -53,7 +60,7 @@ class YouTubePlayer extends React.Component {
       }
     };
 
-    console.log(this.props.locationInfo);
+    console.log(this.props.videoId);
 
     return (
       <div className="video-container">
@@ -64,7 +71,14 @@ class YouTubePlayer extends React.Component {
           onPlay={this._onPlay}
           onPause={this._onPause}
         />
-        {this.displayLocations()}
+        {this.displayLocations().map((item,i)=> {
+          return (<div>
+                    <p className="location-name"><i class="fas fa-map-marker"></i>        {item[0]}</p>
+                    <p className="location-address">{item[1]}</p>
+                    <Link to={this.props.route+"/"+item[0].split(" ").join("")}><p className="view-details">View Details</p></Link>
+                  </div>)
+        })}
+
         <br />
         <br />
         <hr />

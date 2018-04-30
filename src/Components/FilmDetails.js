@@ -18,9 +18,9 @@ export class FilmDetails extends Component {
   }
 
   fromYouTube(params) {
-    this.setState({
-      clipData:params
-    })
+      this.setState({
+        clipData:params
+      })
     console.log(params);
   }
 
@@ -49,73 +49,6 @@ export class FilmDetails extends Component {
 
   }
 
-  // calculateLocation() {
-  //   console.log("inside function!!!");
-  //   if (this.state.clipData) {
-  //     console.log("state!!!!");
-  //     db.collection('Films-To-Places').doc('3WscLkiiCts').get().then((doc) => {
-  //       if (doc.exists) {
-  //         let data = doc.data();
-  //         console.log(data);
-  //         return {
-  //           lat:48.852547,
-  //           lng:2.3471197000000075
-  //         }
-  //       } else {
-  //         console.log("No Document in calculateLocation");
-  //       }
-  //     })
-  //   } else {
-  //     console.log("no state!!!!");
-  //     return {
-  //       lat:1,
-  //       lng:2
-  //     }
-  //   }
-  //
-  // }
-
-// sleep(milliseconds) {
-//   var start = new Date().getTime();
-//   for (var i = 0; i < 1e7; i++) {
-//     if ((new Date().getTime() - start) > milliseconds){
-//       break;
-//     }
-//   }
-// }
-
-  // getLatLng() {
-  //   if (this.state.clipData) {
-  //     let thisLat = -1;
-  //     let thisLng = -1;
-  //     db.collection('Films-to-Places').doc('3WscLkiiCts').get().then(function(doc) {
-  //       if (doc.exists) {
-  //         let data = doc.data();
-  //         let userRef = data['0-161'];
-  //         userRef.get().then(function(place) {
-  //           let placeData = place.data();
-  //           thisLat = placeData.Coor[0];
-  //           thisLng = placeData.Coor[1];
-  //           console.log("promise resolved");
-  //         });
-  //
-  //       } else {
-  //         console.log("No Document in calculateLocation");
-  //       }
-  //     });
-      // while (thisLat==-1 || thisLng == -1) {
-      //   this.sleep(1000);
-      //   console.log("sleeping 100 ms");
-      // }
-  //     return [thisLat,thisLng];
-  //   } else {
-  //     return [49.852547,2.3471197000000075];
-  //   }
-  // }
-  //
-  // getLng() {
-  //   return 2.3471197000000075;
-  // }
 
   getLatLng() {
     if (this.state.clipData) {
@@ -125,7 +58,7 @@ export class FilmDetails extends Component {
         let startTime = key.split("-")[0];
         let endTime = key.split("-")[1];
         if (currentTime<=endTime && currentTime>= startTime) {
-          return [allTimeToClips[key]['Location']['_lat'],allTimeToClips[key]['Location']['_long']];
+          return [allTimeToClips[key]['location']['_lat'],allTimeToClips[key]['location']['_long']];
         }
       }
       return [48.85661400000001,2.3522219000000177];
@@ -141,7 +74,7 @@ export class FilmDetails extends Component {
       for (var key in allTimeToClips) {
         let startTime = key.split("-")[0];
         let endTime = key.split("-")[1];
-        if (currentTime<=endTime && currentTime>= startTime) {
+        if (currentTime<endTime && currentTime>= startTime) {
           return allTimeToClips[key]['_long'];
         }
       }
@@ -178,7 +111,7 @@ export class FilmDetails extends Component {
             <hr />
             {
               this.state.filmData.clips.map((clip,i) => {
-                return <YouTubePlayer videoId={clip.ID} videoTitle={clip.Title} callback={this.fromYouTube.bind(this)} locationInfo={this.state.allClips[clip.ID]}/>
+                return <YouTubePlayer videoId={clip.ID} videoTitle={clip.Title} callback={this.fromYouTube.bind(this)} locationInfo={this.state.allClips[clip.ID]} route={this.props.route}/>
               })
             }
           </div>
@@ -196,10 +129,11 @@ export class FilmDetails extends Component {
                 name={'SOMA'}
                 position={{lat: this.getLatLng()[0], lng: this.getLatLng()[1]}} />
 
-                <InfoWindow onClose={this.onInfoWindowClose}>
-                        <div>
-                          <h1>lala</h1>
-                        </div>
+                <InfoWindow
+                  visible={true} position={{lat: 48.852547, lng: 2.3471197000000075}}>
+                    <div>
+                      <h1>lala</h1>
+                    </div>
                 </InfoWindow>
               </Map>
             </div>

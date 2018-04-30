@@ -1,0 +1,56 @@
+.right-col2 {
+  margin-left: 40px;
+}
+
+.left-col2 {
+  left:94px;
+  padding-left: 0px;
+  overflow: scroll;
+}
+
+.google-map-container {
+  height: 580px;
+  width: 580px;
+}
+
+.title {
+  font-weight: 800;
+  font-family: "Avenir-Heavy", "Avenir", serif;
+  color: #000000;
+  font-size: 30px;
+  letter-spacing: 0px;
+  line-height: 1.2;
+  margin-top: 24px;
+}
+
+.description {
+  font-weight: 400;
+  font-family: "HelveticaNeue", "Helvetica Neue", sans-serif;
+  color: rgb(0, 0, 0);
+  font-size: 14px;
+  letter-spacing: 0px;
+  line-height: 1.2;
+  margin-top: 16px;
+  margin-bottom: 40px;
+  width:600px;
+}
+
+.sub-title {
+  font-weight: 800;
+  font-family: "Avenir-Heavy", "Avenir", serif;
+  color: #000000;
+  font-size: 24px;
+  letter-spacing: 0px;
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+
+.second-row {
+  margin-top:40px;
+}
+
+img {
+  width: 580px;
+  height: auto;
+  margin-bottom: 24px;
+}

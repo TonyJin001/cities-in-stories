@@ -1,5 +1,5 @@
 .video-container {
-  margin: 40px 0px 0px 0px;
+  margin: 32px 0px 0px 0px;
 }
 
 .video-title {
@@ -30,4 +30,16 @@
   letter-spacing: 0px;
   line-height: 1.2;
   padding-top:12px;
+}
+
+.view-details {
+  margin-top:16px;
+  margin-bottom: 12px;
+  font-weight: 800;
+  font-family: "Avenir-Black", "Avenir", serif;
+  color: rgba(52, 118, 203, 1.00);
+  font-size: 13px;
+  letter-spacing: 0px;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
