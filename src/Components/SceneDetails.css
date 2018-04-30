@@ -45,7 +45,11 @@
   margin-bottom: 24px;
 }
 
-.second-row {
+.bottom-row {
+  margin-top:80px;
+}
+
+.bottom-row2 {
   margin-top:40px;
 }
 
@@ -53,4 +57,39 @@ img {
   width: 580px;
   height: auto;
   margin-bottom: 24px;
+}
+
+.react-street-view-wrapper {
+  width: 580px;
+  height: 303.117px;
+  margin-bottom: 24px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.youtube-wrapper {
+  border-radius: 5px;
+  overflow: hidden;
+  height: 328px;
+  width: 580px;
+}
+
+
+.sub-title-year {
+  font-weight: 400;
+  font-family: "Avenir-Medium", "Avenir", serif;
+  color: #777777;
+  font-size: 24px;
+  letter-spacing: 0px;
+  line-height: 1.2;
+}
+
+.film-director {
+  font-weight: 400;
+  font-family: "Avenir-Book", "Avenir", serif;
+  color: #999999;
+  font-size: 18px;
+  letter-spacing: 0px;
+  line-height: 1.2;
+  font-style: italic;
 }

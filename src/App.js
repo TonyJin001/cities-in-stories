@@ -20,7 +20,7 @@ class App extends Component {
 
     const BeforeSunsetSceneDetails = (props) => {
       return (
-        <SceneDetails title="Quai Saint-Bernard in Before Sunset" dbIndex="quai-saint-bernard" lat="48.8468697" lng="2.360971000000063" film="Before Sunset" filmIndex="0"/>
+        <SceneDetails title="Quai Saint-Bernard" dbIndex="quai-saint-bernard" lat="48.8468697" lng="2.360971000000063" film="Before Sunset" filmIndex="0" streetViewLat="48.84940790085192" streetViewLng="2.357773274620115" otherFilm="Paris je t'aime" otherFilmYear="2006" otherFilmDirector="Various Directors" otherFilmId="h1p5DmB3kL4"/>
       );
     }
 

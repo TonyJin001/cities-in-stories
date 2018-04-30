@@ -5,6 +5,7 @@ import './SceneDetails.css';
 import {db} from "../firebase";
 import NavBar from './NavBar';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import ReactStreetview from 'react-streetview';
 
 export class SceneDetails extends Component {
 
@@ -47,6 +48,20 @@ export class SceneDetails extends Component {
     return process.env.PUBLIC_URL+"/Assets/"+ placeName +"/" + filmOrReality +"/"+index+".jpg";
   }
 
+  getPageTitle () {
+    return this.props.title + " in " + this.props.film;
+  }
+
+  // getStreetViewLatLng(latLng) {
+  //   if (latLng=='Lat') {
+  //     console.log("returing:" + this.props.streetViewLat);
+  //     return this.props.streetViewLat;
+  //   } else {
+  //     console.log("returing:" + this.props.streetViewLng);
+  //     return this.props.streetViewLng;
+  //   }
+  // }
+
   render() {
 
     const opts = {
@@ -57,19 +72,30 @@ export class SceneDetails extends Component {
       }
     };
 
+    const googleMapsApiKey = 'AIzaSyDTFiRiF803aZHRYeob2ANjfjyWC8NlYyc';
+
+        // see https://developers.google.com/maps/documentation/javascript/3.exp/reference#StreetViewPanoramaOptions
+    let streetViewPanoramaOptions = {
+            position: {lat:48.84954693281445,lng:2.358547578532267},
+            pov: {heading: 300, pitch: 0},
+            zoom: 1
+    };
+
     if (this.state && this.state.placeData && this.state.videoId) {
       return (
         <div>
-          <NavBar pageTitle={this.props.title} />
+          <NavBar pageTitle={this.getPageTitle()}/>
           <div className="row">
             <div className="left-col2 col-sm-6 col-md-6 col-lg-6">
               <p className="title">{this.state.placeData.name}</p>
               <p className="description">{this.state.placeData.description}</p>
               <p className="sub-title">Scene in {this.props.film}</p>
-              <YouTube
-                videoId={this.state.videoId}
-                opts={opts}
-              />
+              <div className="youtube-wrapper">
+                <YouTube
+                  videoId={this.state.videoId}
+                  opts={opts}
+                />
+              </div>
             </div>
 
             <div className="right-col2 col-sm-5 col-md-5 col-lg-5">
@@ -97,7 +123,7 @@ export class SceneDetails extends Component {
             </div>
           </div>
 
-          <div className="row second-row">
+          <div className="row bottom-row">
             <div className="left-col2 col-sm-6 col-md-6 col-lg-6">
               <p className="sub-title">In {this.props.film}</p>
               <img className="img-responsive" src={this.getPicture(this.props.dbIndex,"Film","1")} />
@@ -107,9 +133,38 @@ export class SceneDetails extends Component {
             <div className="right-col2 col-sm-5 col-md-5 col-lg-5">
               <p className="sub-title">In Reality</p>
               <img  src={this.getPicture(this.props.dbIndex,"Reality","1")} />
+              <div className="react-street-view-wrapper">
+                <ReactStreetview
+                      apiKey={googleMapsApiKey}
+                      streetViewPanoramaOptions={streetViewPanoramaOptions}
+                />
+              </div>
+            </div>
+          </div>
+
+
+          <div className="row bottom-row2">
+            <div className="left-col2 col-sm-6 col-md-6 col-lg-6">
+              <p className="title">{this.props.title} in Other Media</p>
+              <br />
+              <p className="film-heading">
+                <span className="sub-title">{this.props.otherFilm}  </span>
+                <span className="sub-title-year">({this.props.otherFilmYear})</span>
+              </p>
+              <p className="film-sub-heading">
+                <span className="film-director">by {this.props.otherFilmDirector}</span>
+              </p>
+              <br />
+              <div className="youtube-wrapper">
+                <YouTube
+                  videoId={this.props.otherFilmId}
+                  opts={opts}
+                />
+              </div>
             </div>
 
-
+            <div className="right-col2 col-sm-5 col-md-5 col-lg-5">
+            </div>
           </div>
 
         </div>

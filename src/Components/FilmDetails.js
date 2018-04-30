@@ -6,6 +6,8 @@ import {db} from "../firebase";
 import NavBar from './NavBar';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
+import { withGoogleMap, GoogleMap } from 'react-google-maps';
+
 export class FilmDetails extends Component {
 
   constructor (props) {
@@ -13,9 +15,29 @@ export class FilmDetails extends Component {
     this.state = {
       filmData:null,
       clipData:null,
-      allClips:null
+      allClips:null,
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {},
     }
+    this.myMap = React.createRef();
   }
+
+  onMarkerClick = (props, marker, e) =>
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+
+  onMapClicked = (props) => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      })
+    }
+  };
 
   fromYouTube(params) {
       this.setState({
@@ -46,6 +68,31 @@ export class FilmDetails extends Component {
       self.setState({allClips:allClipsData});
     })
 
+    // const DirectionsService = new this.props.google.maps.DirectionsService();
+    // let DirectionsDisplay = new this.props.google.maps.DirectionsRenderer();
+    // if (this.myMap.current != null) {
+    //   console.log(this.myMap.current);
+    // } else {
+    //   console.log("MAP NULLLLL");
+    // }
+    //
+    // DirectionsDisplay.setMap(this.myMap.current);
+    //
+    //   DirectionsService.route({
+    //     origin: new this.props.google.maps.LatLng(48.85661400000001, 2.3522219000000177),
+    //     destination: new this.props.google.maps.LatLng(48.857, 2.3522219000000177),
+    //     travelMode: this.props.google.maps.TravelMode.DRIVING,
+    //   }, (result, status) => {
+    //     if (status === this.props.google.maps.DirectionsStatus.OK) {
+    //       DirectionsDisplay.setDirections(result);
+    //       console.log("map OKK");
+    //     } else {
+    //       console.error(`error fetching directions ${result}`);
+    //     }
+    //   });
+
+
+
 
   }
 
@@ -58,6 +105,7 @@ export class FilmDetails extends Component {
         let startTime = key.split("-")[0];
         let endTime = key.split("-")[1];
         if (currentTime<=endTime && currentTime>= startTime) {
+          console.log(allTimeToClips[key]['location']);
           return [allTimeToClips[key]['location']['_lat'],allTimeToClips[key]['location']['_long']];
         }
       }
@@ -67,24 +115,32 @@ export class FilmDetails extends Component {
     }
   }
 
-  getLng() {
+  getPlaceInfo() {
     if (this.state.clipData) {
       let currentTime = this.state.clipData.time;
       let allTimeToClips = this.state.allClips[this.state.clipData.ID];
       for (var key in allTimeToClips) {
         let startTime = key.split("-")[0];
         let endTime = key.split("-")[1];
-        if (currentTime<endTime && currentTime>= startTime) {
-          return allTimeToClips[key]['_long'];
+        if (currentTime<=endTime && currentTime>= startTime) {
+          return [allTimeToClips[key]['name'],allTimeToClips[key]['address']];
         }
       }
-      return 49.852547;
+      return ["Paris",""];
     } else {
-      return 49.852547;
+      return ["Paris",""];
     }
   }
 
   render() {
+
+    // if (this.myMap.current != null) {
+    //   console.log(this.myMap.current);
+    // } else {
+    //   console.log("MAP NULLLLL");
+    // }
+
+
     if (this.state && this.state.filmData && this.state.allClips) {
 
       return (
@@ -117,22 +173,25 @@ export class FilmDetails extends Component {
           </div>
           <div className="right-col col-sm-5 col-md-5 col-lg-5">
             <div className="google-map-container">
-              <Map  google={this.props.google}
+              <Map  ref={this.myMap} google={this.props.google}
               zoom={14}
               initialCenter={{
-                lat:48.852547,
-                lng:2.3471197000000075
+                lat:48.85661400000001,
+                lng:2.3522219000000177
               }}
+              onClick={this.onMapClicked}
               >
                 <Marker
                 title={'The marker`s title will appear as a tooltip.'}
                 name={'SOMA'}
-                position={{lat: this.getLatLng()[0], lng: this.getLatLng()[1]}} />
+                position={{lat: this.getLatLng()[0], lng: this.getLatLng()[1]}} onClick={this.onMarkerClick}/>
 
                 <InfoWindow
-                  visible={true} position={{lat: 48.852547, lng: 2.3471197000000075}}>
+                  marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}>
                     <div>
-                      <h1>lala</h1>
+                      <p>{this.getPlaceInfo()[0]}</p>
+                      <p>{this.getPlaceInfo()[1]}</p>
                     </div>
                 </InfoWindow>
               </Map>
