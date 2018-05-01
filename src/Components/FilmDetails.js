@@ -67,33 +67,6 @@ export class FilmDetails extends Component {
       })
       self.setState({allClips:allClipsData});
     })
-
-    // const DirectionsService = new this.props.google.maps.DirectionsService();
-    // let DirectionsDisplay = new this.props.google.maps.DirectionsRenderer();
-    // if (this.myMap.current != null) {
-    //   console.log(this.myMap.current);
-    // } else {
-    //   console.log("MAP NULLLLL");
-    // }
-    //
-    // DirectionsDisplay.setMap(this.myMap.current);
-    //
-    //   DirectionsService.route({
-    //     origin: new this.props.google.maps.LatLng(48.85661400000001, 2.3522219000000177),
-    //     destination: new this.props.google.maps.LatLng(48.857, 2.3522219000000177),
-    //     travelMode: this.props.google.maps.TravelMode.DRIVING,
-    //   }, (result, status) => {
-    //     if (status === this.props.google.maps.DirectionsStatus.OK) {
-    //       DirectionsDisplay.setDirections(result);
-    //       console.log("map OKK");
-    //     } else {
-    //       console.error(`error fetching directions ${result}`);
-    //     }
-    //   });
-
-
-
-
   }
 
 
@@ -115,6 +88,8 @@ export class FilmDetails extends Component {
     }
   }
 
+
+
   getPlaceInfo() {
     if (this.state.clipData) {
       let currentTime = this.state.clipData.time;
@@ -132,14 +107,13 @@ export class FilmDetails extends Component {
     }
   }
 
+  getLink() {
+    let lat = this.getLatLng()[0];
+    let lng = this.getLatLng()[1];
+    return "https://www.google.com/maps/dir/?api=1&origin=48.867837,2.381656&destination=" + lat + "," + lng;
+  }
+
   render() {
-
-    // if (this.myMap.current != null) {
-    //   console.log(this.myMap.current);
-    // } else {
-    //   console.log("MAP NULLLLL");
-    // }
-
 
     if (this.state && this.state.filmData && this.state.allClips) {
 
@@ -190,8 +164,10 @@ export class FilmDetails extends Component {
                   marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}>
                     <div>
-                      <p>{this.getPlaceInfo()[0]}</p>
-                      <p>{this.getPlaceInfo()[1]}</p>
+                      <p className="place-title">{this.getPlaceInfo()[0]}</p>
+                      <p className="place-address">{this.getPlaceInfo()[1]}</p>
+                      <img className="iconSaveMap" src= {process.env.PUBLIC_URL+"/Assets/map/save.jpg"} />
+                      <a href= {this.getLink()}><img className="iconDirectionMap" src= {process.env.PUBLIC_URL+"/Assets/map/direction.jpg"} /></a>
                     </div>
                 </InfoWindow>
               </Map>
@@ -200,7 +176,7 @@ export class FilmDetails extends Component {
         </div>
       );
     } else {
-      return <h1>loading...</h1>
+      return <h1></h1>
     }
 
   }

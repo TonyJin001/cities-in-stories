@@ -6,6 +6,7 @@ import {db} from "../firebase";
 import NavBar from './NavBar';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import ReactStreetview from 'react-streetview';
+import {Link} from "react-router-dom";
 
 export class SceneDetails extends Component {
 
@@ -52,15 +53,10 @@ export class SceneDetails extends Component {
     return this.props.title + " in " + this.props.film;
   }
 
-  // getStreetViewLatLng(latLng) {
-  //   if (latLng=='Lat') {
-  //     console.log("returing:" + this.props.streetViewLat);
-  //     return this.props.streetViewLat;
-  //   } else {
-  //     console.log("returing:" + this.props.streetViewLng);
-  //     return this.props.streetViewLng;
-  //   }
-  // }
+  getLink() {
+    return "https://www.google.com/maps/dir/?api=1&origin=48.867837,2.381656&destination="+this.props.lat+","+this.props.lng;
+  }
+
 
   render() {
 
@@ -87,7 +83,17 @@ export class SceneDetails extends Component {
           <NavBar pageTitle={this.getPageTitle()}/>
           <div className="row">
             <div className="left-col2 col-sm-6 col-md-6 col-lg-6">
-              <p className="title">{this.state.placeData.name}</p>
+              <div className="left-row2 col-sm-8 col-md-8 col-lg-8">
+                <p className="title">{this.state.placeData.name}</p>
+              </div>
+
+              <div className="col-sm-4 col-md-4 col-lg-4">
+                <div className="right-row2">
+                  <img className="iconSave2" src= {process.env.PUBLIC_URL+"/Assets/map/save.jpg"} />
+                  <a href= {this.getLink()}><img className="iconDirection2" src= {process.env.PUBLIC_URL+"/Assets/map/direction.jpg"} /></a>
+                </div>
+              </div>
+
               <p className="description">{this.state.placeData.description}</p>
               <p className="sub-title">Scene in {this.props.film}</p>
               <div className="youtube-wrapper">
@@ -147,13 +153,22 @@ export class SceneDetails extends Component {
             <div className="left-col2 col-sm-6 col-md-6 col-lg-6">
               <p className="title">{this.props.title} in Other Media</p>
               <br />
-              <p className="film-heading">
-                <span className="sub-title">{this.props.otherFilm}  </span>
-                <span className="sub-title-year">({this.props.otherFilmYear})</span>
-              </p>
-              <p className="film-sub-heading">
-                <span className="film-director">by {this.props.otherFilmDirector}</span>
-              </p>
+
+              <div className="other-film-info col-sm-7 col-md-7 col-lg-7">
+                <p className="film-heading">
+                  <span className="sub-title">{this.props.otherFilm}  </span>
+                  <span className="sub-title-year">({this.props.otherFilmYear})</span>
+                </p>
+                <p className="film-sub-heading">
+                  <span className="film-director">by {this.props.otherFilmDirector}</span>
+                </p>
+              </div>
+              <div className="col-sm-5 col-md-5 col-lg-5">
+                <div className="other-film-right-row">
+                  <Link to={"/"+this.props.otherFilm.split(" ").join("")}><p className="view-details">View Film Details</p></Link>
+                </div>
+              </div>
+
               <br />
               <div className="youtube-wrapper">
                 <YouTube
@@ -161,10 +176,12 @@ export class SceneDetails extends Component {
                   opts={opts}
                 />
               </div>
+              <p className="other-film-view-details">View Scene Details</p>
             </div>
 
             <div className="right-col2 col-sm-5 col-md-5 col-lg-5">
             </div>
+
           </div>
 
         </div>

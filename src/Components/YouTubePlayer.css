@@ -43,3 +43,20 @@
   line-height: 1.2;
   text-transform: uppercase;
 }
+
+.right-row {
+  float:right;
+  margin: 16px 64px 0px 0px;
+}
+
+.iconSave {
+  width: 15px;
+  height: auto;
+  margin-right: 32px;
+}
+
+.iconDirection {
+  width: 21px;
+  height: auto;
+
+}
